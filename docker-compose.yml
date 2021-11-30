@@ -1,0 +1,36 @@
+version: "3"
+services:
+    notion-php:
+        image: "pauulog/php-docker-dev:latest"
+        container_name: "notion-php"
+        links:
+          - "notion-mariadb:mariadb.host"
+        volumes:
+            - "./:/quidordine:rw"
+        working_dir: /quidordine
+        restart: always
+    notion-nginx:
+        image: "nginx:1-alpine"
+        container_name: "notion-nginx"
+        links:
+          - "notion-php:notion-php.host"
+        ports:
+          - 8080:80
+        volumes:
+            - "./:/quidordine:rw"
+            - "./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:r"
+        working_dir: /quidordine
+        restart: always
+    notion-mariadb:
+        image: "mariadb:10.6"
+        container_name: "notion-mariadb"
+        volumes:
+            - "._mysql_data_dir/:/var/lib/mysql:rw"
+        ports:
+          - 3307:3306
+        environment:
+          - MARIADB_USER
+          - MARIADB_PASSWORD
+          - MARIADB_DATABASE
+          - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=true
+        restart: always
