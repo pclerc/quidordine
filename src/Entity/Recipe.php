@@ -15,7 +15,7 @@ class Recipe
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="string", length=255)
      */
     private $id;
 
@@ -70,7 +70,7 @@ class Recipe
         $this->nameUser = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
