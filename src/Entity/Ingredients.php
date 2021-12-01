@@ -15,7 +15,7 @@ class Ingredients
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="integer")
      */
     private $id;
 
@@ -44,13 +44,18 @@ class Ingredients
      */
     private $databaseId;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $notionId;
+
     public function __construct()
     {
         $this->nameRecipe = new ArrayCollection();
         $this->nameUser = new ArrayCollection();
     }
 
-    public function getId(): ?string
+    public function getId(): int
     {
         return $this->id;
     }
@@ -141,6 +146,18 @@ class Ingredients
     public function setDatabaseId(string $databaseId): self
     {
         $this->databaseId = $databaseId;
+
+        return $this;
+    }
+
+    public function getNotionId(): ?string
+    {
+        return $this->notionId;
+    }
+
+    public function setNotionId(string $notionId): self
+    {
+        $this->notionId = $notionId;
 
         return $this;
     }

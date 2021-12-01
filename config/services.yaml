@@ -6,6 +6,8 @@
 parameters:
     notion_base_url: "%env(resolve:NOTION_BASE_URL)%"
     notion_token: "%env(resolve:NOTION_TOKEN)%"
+    ingredients_database_id: "29a4950a-c1fd-4229-a4eb-750779220278"
+    recipes_database_id: "8c9c6f46-30c5-48c1-9535-d099f7a1ae69"
 
 services:
     # default configuration for services in *this* file
