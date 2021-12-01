@@ -52,25 +52,33 @@ class QuidordineController extends AbstractController
         /** @var Recipe $page */
         foreach ($pages['results'] as $page) {
 
-            if ($page["object"] === "database") {
+//      Maybe we can use it to see if a page is archived in case of problems in DB
+//            if ($page['object'] === 'page' && $pages['archived'] === true) {
+//                continue;
+//            }
+
+            if ($page['object'] === 'database') {
                 $title = substr($page['title'][0]['plain_text'], 0, 255);
-            } else if($page["object"] === "page" ) {
-                $title = $page['properties']["Name"]["title"][0]["plain_text"];
+            } else if($page['object'] === 'page' && isset($page['properties']['title']['title'][0]['plain_text']) ) {
+                $title = substr($page['properties']['title']['title'][0]['plain_text'], 0, 255);
+            } else if (isset($page['properties']['Name']['title'][0]['plain_text'])){
+                $title = $page['properties']['Name']['title'][0]['plain_text'];
+            }
+
+            if (isset($page['parent']["database_id"])) {
+                $databaseID = $page['parent']["database_id"];
+            } else {
+                $databaseID = null;
             }
 
             $returnArray[] = [
-                'id' => $page["id"],
-                'objectname' => $page["object"],
-                'name' => $title
+                'id' => $page['id'],
+                'objectname' => $page['object'],
+                'name' => $title,
+                'databaseId' => $databaseID
             ];
-//            $returnArray[] = [
-//                'results' => $page
-//            ];
 
-//            return $this->json($page);
         }
-
-//        return $this->json($returnArray);
         return $this->json($returnArray);
     }
 

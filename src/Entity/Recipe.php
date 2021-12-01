@@ -64,6 +64,11 @@ class Recipe
      */
     private $nameUser;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $databaseId;
+
     public function __construct()
     {
         $this->ingredients = new ArrayCollection();
@@ -206,6 +211,18 @@ class Recipe
         if ($this->nameUser->removeElement($nameUser)) {
             $nameUser->removeFavorite($this);
         }
+
+        return $this;
+    }
+
+    public function getDatabaseId(): ?string
+    {
+        return $this->databaseId;
+    }
+
+    public function setDatabaseId(string $databaseId): self
+    {
+        $this->databaseId = $databaseId;
 
         return $this;
     }

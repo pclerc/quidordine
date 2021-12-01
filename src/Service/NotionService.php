@@ -52,4 +52,12 @@ class NotionService
         ]);
         return json_decode($pages->getContent(),true);
     }
+
+
+    public function saveNotionPages() :array {
+        /*
+         * @todo: Saving Pages in the right Database using the function in the controller
+        */
+        return [];
+    }
 }
