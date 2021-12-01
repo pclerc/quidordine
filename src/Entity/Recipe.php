@@ -30,7 +30,7 @@ class Recipe
     private $type;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="array")
      */
     private $details;
 
@@ -69,6 +69,11 @@ class Recipe
      */
     private $databaseId;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $notionId;
+
     public function __construct()
     {
         $this->ingredients = new ArrayCollection();
@@ -104,12 +109,12 @@ class Recipe
         return $this;
     }
 
-    public function getDetails(): ?string
+    public function getDetails(): ?array
     {
         return $this->details;
     }
 
-    public function setDetails(string $details): self
+    public function setDetails(array $details): self
     {
         $this->details = $details;
 
@@ -223,6 +228,18 @@ class Recipe
     public function setDatabaseId(string $databaseId): self
     {
         $this->databaseId = $databaseId;
+
+        return $this;
+    }
+
+    public function getNotionId(): ?string
+    {
+        return $this->notionId;
+    }
+
+    public function setNotionId(string $notionId): self
+    {
+        $this->notionId = $notionId;
 
         return $this;
     }

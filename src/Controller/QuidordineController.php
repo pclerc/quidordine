@@ -42,12 +42,8 @@ class QuidordineController extends AbstractController
     /**
      * @Route("/notionpages", name="notionspages")
      */
-    public function notionPages(): Response
-    {
+    public function notionPages(): Response {
         $pages = $this->notionService->getNotionPages();
-//        var_dump($pages["results"][0]["id"]);
-
-
         $returnArray = [];
 
         /** @var Recipe $page */
