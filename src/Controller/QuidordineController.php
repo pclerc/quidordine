@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Recipe;
 use App\Entity\Ingredients;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\NotionService;
@@ -26,7 +27,7 @@ class QuidordineController extends AbstractController
      */
     public function quidordine(): Response
     {
-        return $this->render('quidordine/index.html.twig', [
+        return $this->render('quidordine/login.html.twig', [
             'controller_name' => 'QuidordineController',
         ]);
     }
@@ -88,4 +89,11 @@ class QuidordineController extends AbstractController
         return $this->json($savedNotionPages);
     }
 
+    /**
+     * @Route("/login", name="login")
+     */
+    public function login(Request $request): Response
+    {
+        return $this->render("quidordine/login.html.twig");
+    }
 }

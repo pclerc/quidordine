@@ -60,11 +60,6 @@ class Recipe
     private $cost;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="favorites")
-     */
-    private $nameUser;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private $databaseId;
@@ -74,10 +69,16 @@ class Recipe
      */
     private $notionId;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="favorites")
+     */
+    private $users;
+
+
     public function __construct()
     {
         $this->ingredients = new ArrayCollection();
-        $this->nameUser = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): int
@@ -193,33 +194,6 @@ class Recipe
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getNameUser(): Collection
-    {
-        return $this->nameUser;
-    }
-
-    public function addNameUser(User $nameUser): self
-    {
-        if (!$this->nameUser->contains($nameUser)) {
-            $this->nameUser[] = $nameUser;
-            $nameUser->addFavorite($this);
-        }
-
-        return $this;
-    }
-
-    public function removeNameUser(User $nameUser): self
-    {
-        if ($this->nameUser->removeElement($nameUser)) {
-            $nameUser->removeFavorite($this);
-        }
-
-        return $this;
-    }
-
     public function getDatabaseId(): ?string
     {
         return $this->databaseId;
@@ -240,6 +214,33 @@ class Recipe
     public function setNotionId(string $notionId): self
     {
         $this->notionId = $notionId;
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            $user->removeFavorite($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addFavorite($this);
+        }
 
         return $this;
     }

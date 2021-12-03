@@ -34,10 +34,10 @@ class Ingredients
      */
     private $nameRecipe;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="allergies")
-     */
-    private $nameUser;
+//    /**
+//     * @ORM\ManyToMany(targetEntity=User::class, mappedBy="allergies")
+//     */
+//    private $nameUser;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -52,7 +52,7 @@ class Ingredients
     public function __construct()
     {
         $this->nameRecipe = new ArrayCollection();
-        $this->nameUser = new ArrayCollection();
+/*        $this->nameUser = new ArrayCollection();*/
     }
 
     public function getId(): int
@@ -111,32 +111,32 @@ class Ingredients
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getNameUser(): Collection
-    {
-        return $this->nameUser;
-    }
+//    /**
+//     * @return Collection|User[]
+//     */
+//    public function getNameUser(): Collection
+//    {
+//        return $this->nameUser;
+//    }
+//
+//    public function addNameUser(User $nameUser): self
+//    {
+//        if (!$this->nameUser->contains($nameUser)) {
+//            $this->nameUser[] = $nameUser;
+//            $nameUser->addAllergy($this);
+//        }
+//
+//        return $this;
+//    }
 
-    public function addNameUser(User $nameUser): self
-    {
-        if (!$this->nameUser->contains($nameUser)) {
-            $this->nameUser[] = $nameUser;
-            $nameUser->addAllergy($this);
-        }
-
-        return $this;
-    }
-
-    public function removeNameUser(User $nameUser): self
-    {
-        if ($this->nameUser->removeElement($nameUser)) {
-            $nameUser->removeAllergy($this);
-        }
-
-        return $this;
-    }
+//    public function removeNameUser(User $nameUser): self
+//    {
+//        if ($this->nameUser->removeElement($nameUser)) {
+//            $nameUser->removeAllergy($this);
+//        }
+//
+//        return $this;
+//    }
 
     public function getDatabaseId(): ?string
     {
