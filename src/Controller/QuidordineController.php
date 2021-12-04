@@ -108,4 +108,22 @@ class QuidordineController extends AbstractController
         throw new \Exception('logout() should never be reached');
     }
 
+    /**
+    * @Route("/testblock", name="testblock")
+    */
+    public function blockTest(Request $request): Response
+    {
+        $isUpdated = $this->notionService->getNotionContent("cb1776df-4341-40a4-9c16-1ebe29f0589b", "ingredients");
+        return $this->json($isUpdated);
+    }
+
+    /**
+     * @Route("/uptodate", name="uptodate")
+     */
+    public function checkUpToDate(Request $request): Response
+    {
+        $isUpdated = $this->notionService->isItUpToDate("cb1776df-4341-40a4-9c16-1ebe29f0589b", "ingredients");
+        return $this->json($isUpdated);
+    }
+
 }

@@ -57,12 +57,22 @@ class NotionService
         return json_decode($pages->getContent(),true);
     }
 
-    public function getNotionContent(string $notionId): array {
+    public function getNotionContent(string $notionId, string $type): array {
         $notionBaseUrl = $this->parameterBag->get('notion_base_url');
         $notionToken = $this->parameterBag->get('notion_token');
 
         // Formating the URL for blocks items
-        $notionSearchUrl = sprintf('%s/blocks/%s/children', $notionBaseUrl, $notionId);
+        if ($type === "block")
+        {
+            $notionSearchUrl = sprintf('%s/blocks/%s/children', $notionBaseUrl, $notionId);
+        } else if ($type === "page")
+        {
+            $notionSearchUrl = sprintf('%s/pages/%s/', $notionBaseUrl, $notionId);
+        } else if ($type === "database")
+        {
+            $notionSearchUrl = sprintf('%s/databases/%s/', $notionBaseUrl, $notionId);
+        }
+
         $authorizationHeader = sprintf('Bearer %s', $notionToken);
 
         // Here is the query
@@ -79,6 +89,65 @@ class NotionService
         return json_decode($pages->getContent(), true);
     }
 
+    // PUBLIC fetch
+
+
+    public function editNotionDB(string $notionId, string $className) :array{
+        // Case 1 : We need to edit the Notion Content
+
+        // Récupérer le nom de la database
+        $retrievedNotionPage = $this->getNotionContent($notionId);
+        $blockTask = [];
+
+        // Foreach block we got we retrieve the text-content he have and we store it in a array
+        foreach ($retrievedNotionPage['results'] as $block) {
+            if (isset($block['paragraph']['text'][0]["plain_text"])) {
+                $blockTask[] = $block['paragraph']['text'][0]["plain_text"];
+            }
+        }
+        $contentNotion = $this->getNotionContent($notionId);
+        $field = new $className();
+        $pagesBDD = $this->entityManager->getRepository($className);
+        $content = [];
+
+        // Case 2 : We need to edit the Notion page properties
+
+        return $content;
+    }
+
+    // Envoie en argument ce qu'on veut regarder au niveau de la page Notion
+    // On regarde la BDD correspondante
+    // On compare les valeurs entre la BDD et la page Notion
+    // Et si jamais y'a une différence, on update ?
+    public function updateDatabase(string $notionId) :bool {
+        $notionUpdated = false;
+        $notionContent = $this->getNotionContent($notionId, "page");
+        $parentDatabaseName = $this->getNotionContent($notionContent['parent']['database_id'], "database")['title'][0]['plain_text'];
+
+        //We do a switch to take the good class name
+        switch ($parentDatabaseName) {
+            case "Recipes":
+                $BDDContent = $this->entityManager->getRepository(Recipe::class)->findOneByNotionId($notionId);
+                break;
+            case "Ingredients":
+                $BDDContent = $this->entityManager->getRepository(Ingredients::class)->findOneByNotionId($notionId);
+                break;
+            case "Users":
+                $BDDContent = $this->entityManager->getRepository(Recipes::class)->findOneByNotionId($notionId);
+                break;
+        }
+
+        // We return this variable to check if the process is successful
+        return $notionUpdated;
+    }
+
+    //Fetching the ingredients of a recipe as an array of Ingredients
+    public function getIngredientsOfRecipe(string $notionId) :array {
+        $BDDContent = $this->entityManager->getRepository(Recipe::class)->findOneByNotionId($notionId);
+
+
+    }
+
     // Saving into the database the properties we need that are stored in Notion
     public function saveNotionProperties() :array {
         $pages = $this->getNotionPages();
@@ -92,6 +161,11 @@ class NotionService
 
             if ($existingIngredients !== null || $existingRecipe !== null) {
                 // @todo: If the ID already exist it will not modify the entity in the table !!!! need to fix it
+                // Regarder si il y a des modifications en entrée (pour les 2 DB)
+                // Faire la check modification, check ID si c'est le même et comparer les entrées
+                // H3 Workshop : comment retrieve les données pour les comparer
+                // Si modification, alors faire un Set[…] mais avec le bon ID
+                //
                 continue;
             }
 
@@ -124,7 +198,7 @@ class NotionService
                     //echo(sprintf("%s which is a %s saved in the ingredients database\n", $name, $type));
 
                 } elseif ($databaseId === $this->parameterBag->get('recipes_database_id')) {
-                    $retrievedNotionPage = $this->getNotionContent($id);
+                    $retrievedNotionPage = $this->getNotionContent($id, "block");
                     $blockTask = [];
 
                     // Foreach block we got we retrieve the text-content he have and we store it in a array
