@@ -99,4 +99,13 @@ class QuidordineController extends AbstractController
             'error' => $authenticationUtils->getLastAuthenticationError(),
         ]);
     }
+
+    /**
+     * @Route("/logout", name="app_logout")
+     */
+    public function logout(Request $request): Response
+    {
+        throw new \Exception('logout() should never be reached');
+    }
+
 }

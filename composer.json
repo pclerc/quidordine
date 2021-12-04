@@ -27,6 +27,7 @@
         "symfony/mime": "5.4.*",
         "symfony/monolog-bundle": "^3.1",
         "symfony/notifier": "5.4.*",
+        "symfony/password-hasher": "5.4.*",
         "symfony/process": "5.4.*",
         "symfony/property-access": "5.4.*",
         "symfony/property-info": "5.4.*",
@@ -51,7 +52,8 @@
         "symfony/maker-bundle": "^1.0",
         "symfony/phpunit-bridge": "^6.0",
         "symfony/stopwatch": "5.4.*",
-        "symfony/web-profiler-bundle": "5.4.*"
+        "symfony/web-profiler-bundle": "5.4.*",
+        "zenstruck/foundry": "^1.14"
     },
     "config": {
         "optimize-autoloader": true,
