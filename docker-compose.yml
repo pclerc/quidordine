@@ -18,7 +18,7 @@ services:
           - 8080:80
         volumes:
             - "./:/quidordine:rw"
-            - "./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:r"
+            - "./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:rw"
         working_dir: /quidordine
         restart: always
     quidordine-mariadb:

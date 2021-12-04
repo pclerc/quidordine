@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\NotionService;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class QuidordineController extends AbstractController
 {
@@ -23,11 +24,11 @@ class QuidordineController extends AbstractController
     }
 
     /**
-     * @Route("/quidordine", name="quidordine")
+     * @Route("/quidordine", name="app_homepage")
      */
     public function quidordine(): Response
     {
-        return $this->render('quidordine/login.html.twig', [
+        return $this->render('base.html.twig', [
             'controller_name' => 'QuidordineController',
         ]);
     }
@@ -41,7 +42,7 @@ class QuidordineController extends AbstractController
     }
 
     /**
-     * @Route("/notionpages", name="notionspages")
+     * @Route("/notionpages", name="app_notionspages")
      */
     public function notionPages(): Response {
         $pages = $this->notionService->getNotionPages();
@@ -81,7 +82,7 @@ class QuidordineController extends AbstractController
     }
 
     /**
-     * @Route("/savenotionpages", name="savenotionpages")
+     * @Route("/savenotionpages", name="app_savenotionpages")
      */
     public function saveNotionPages(): Response
     {
@@ -90,10 +91,12 @@ class QuidordineController extends AbstractController
     }
 
     /**
-     * @Route("/login", name="login")
+     * @Route("/login", name="app_login")
      */
-    public function login(Request $request): Response
+    public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
     {
-        return $this->render("quidordine/login.html.twig");
+        return $this->render('quidordine/login.html.twig', [
+            'error' => $authenticationUtils->getLastAuthenticationError(),
+        ]);
     }
 }
