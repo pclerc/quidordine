@@ -145,7 +145,7 @@ class NotionService
     public function getIngredientsOfRecipe(string $notionId) :array {
         $BDDContent = $this->entityManager->getRepository(Recipe::class)->findOneByNotionId($notionId);
 
-
+    return $BDDContent;
     }
 
     // Saving into the database the properties we need that are stored in Notion
