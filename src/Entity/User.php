@@ -33,9 +33,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @var string The hashed password
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private $password;
+
 
     /**
      * @ORM\Column(type="string", length=500, nullable=true)
@@ -43,7 +44,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=64, unique=true)
      */
     private $email;
 
@@ -56,6 +57,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\ManyToMany(targetEntity=Recipe::class, inversedBy="users")
      */
     private $favorites;
+
+    private $plainPassword;
+
+    /**
+     * @param mixed $plainPassword
+     */
+    public function setPlainPassword($plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlainPassword() :?string
+    {
+        return $this->plainPassword;
+    }
 
     public function __construct()
     {
@@ -143,7 +164,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+         $this->plainPassword = null;
     }
 
     public function getDescription(): ?string
