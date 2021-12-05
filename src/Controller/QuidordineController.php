@@ -91,16 +91,6 @@ class QuidordineController extends AbstractController
     }
 
     /**
-     * @Route("/login", name="app_login")
-     */
-    public function login(Request $request, AuthenticationUtils $authenticationUtils): Response
-    {
-        return $this->render('quidordine/login.html.twig', [
-            'error' => $authenticationUtils->getLastAuthenticationError(),
-        ]);
-    }
-
-    /**
      * @Route("/logout", name="app_logout")
      */
     public function logout(Request $request): Response
