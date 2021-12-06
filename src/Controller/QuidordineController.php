@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\NotionService;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class QuidordineController extends AbstractController
 {
@@ -109,21 +110,13 @@ class QuidordineController extends AbstractController
     }
 
     /**
-    * @Route("/testblock", name="testblock")
-    */
-    public function blockTest(Request $request): Response
-    {
-        $isUpdated = $this->notionService->getNotionContent("cb1776df-4341-40a4-9c16-1ebe29f0589b", "ingredients");
-        return $this->json($isUpdated);
-    }
-
-    /**
-     * @Route("/uptodate", name="uptodate")
+     * @Route("/getpage", name="getpage")
      */
-    public function checkUpToDate(Request $request): Response
+
+    public function checkPage(Request $request): Response
     {
-        $isUpdated = $this->notionService->isItUpToDate("cb1776df-4341-40a4-9c16-1ebe29f0589b", "ingredients");
-        return $this->json($isUpdated);
+        $check = $this->notionService->getNotionContent("2a2bf5f0-0841-4a6a-9f65-804cc40c0ca5", "page");
+        return $this->json($check);
     }
 
 }
