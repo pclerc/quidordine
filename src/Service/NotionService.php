@@ -208,6 +208,10 @@ class NotionService
                         }
                     }
 
+                    if($page['properties']['difficulty']['number'] === null) {
+                        dd($page);
+                    }
+
                     $recipes = new Recipe();
                     $recipes->setDatabaseId($databaseId);
                     $recipes->setName($name);
