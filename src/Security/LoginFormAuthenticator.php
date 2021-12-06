@@ -28,7 +28,7 @@ class LoginFormAuthenticator extends AbstractAuthenticator
     public function __construct(UserRepository $userRepository, RouterInterface $router) {
         $this->userRepository = $userRepository;
         $this->router= $router;
-    }
+    }''
 
     public function supports(Request $request): ?bool
     {
